@@ -4,14 +4,16 @@ const Parser = require('rss-parser');
 const axios = require('axios');
 const Article = require('./models/Article');
 const Source = require('./models/Source');
+const https = require('https');
 
+// Initialize Parser with a custom fetch method that disables certificate validation
 const parser = new Parser();
 
 // Configure the live RSS feeds we want to scrape
 const RSS_FEEDS = [
   {
     name: "BBC News - World",
-    url: "http://feeds.bbci.co.uk/news/world/rss.xml",
+    url: "https://feeds.bbci.co.uk/news/world/rss.xml", // Update HTTP to HTTPS
     defaultCategories: ["world", "politics"]
   },
   {
@@ -41,6 +43,25 @@ const RSS_FEEDS = [
   }
 ];
 
+// Create custom axios instance without TLS validation
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+  keepAlive: true,
+  family: 4
+});
+
+async function fetchWithAxios(url) {
+  const result = await axios.get(url, { 
+    httpsAgent,
+    timeout: 10000,
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+      'Accept': 'application/rss+xml, application/xml, text/xml'
+    }
+  });
+  return result.data;
+}
+
 async function ingestFeeds() {
   try {
     await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/news_aggregator');
@@ -65,7 +86,8 @@ async function ingestFeeds() {
       // 2. Parse the RSS Feed (with error handling)
       let feed;
       try {
-        feed = await parser.parseURL(feedConfig.url);
+        const feedXml = await fetchWithAxios(feedConfig.url);
+        feed = await parser.parseString(feedXml);
       } catch (feedError) {
         console.error(`  [Error] Failed to fetch feed ${feedConfig.name}:`, feedError.message);
         continue; // Skip to the next feed

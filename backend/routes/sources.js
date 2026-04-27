@@ -20,7 +20,15 @@ router.get('/:sourceId/articles', async (req, res) => {
         if (!source) {
             return res.status(404).json({ message: 'Source not found' });
         }
-        const articles = await Article.find({ source: req.params.sourceId }).sort({ publishedAt: -1 });
+        
+        // Filter articles created in the last 24 hours
+        const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+        
+        const articles = await Article.find({ 
+            sourceId: req.params.sourceId,
+            publishedAt: { $gte: twentyFourHoursAgo }
+        }).sort({ publishedAt: -1 });
+        
         res.json(articles);
     } catch (err) {
         res.status(500).json({ message: err.message });
