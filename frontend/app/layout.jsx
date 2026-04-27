@@ -1,4 +1,5 @@
 import './globals.css'
+import Link from 'next/link'
 
 export const metadata = {
   title: 'Real-Time News Aggregator',
@@ -11,12 +12,13 @@ export default function RootLayout({ children }) {
       <body>
         <nav className="navbar">
           <div className="nav-brand">
-            <h1>News Analytics Platform</h1>
+            <Link href="/" className="brand-mark">PulseWire</Link>
+            <span>News intelligence</span>
           </div>
           <div className="nav-links">
-            <a href="/">Dashboard</a>
-            <a href="/topics">Topics</a>
-            <a href="/sources">Sources</a>
+            <Link href="/">Dashboard</Link>
+            <Link href="/topics">Topics</Link>
+            <Link href="/sources">Sources</Link>
           </div>
         </nav>
         <main>{children}</main>

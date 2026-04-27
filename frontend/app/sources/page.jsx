@@ -1,6 +1,9 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export default function Sources() {
   const [sources, setSources] = useState([]);
@@ -9,7 +12,7 @@ export default function Sources() {
   useEffect(() => {
     async function fetchSources() {
       try {
-        const response = await axios.get('http://localhost:5000/api/sources');
+        const response = await axios.get(`${API_BASE_URL}/api/sources`);
         setSources(response.data);
       } catch (error) {
         console.error('Error fetching sources:', error);
@@ -17,32 +20,53 @@ export default function Sources() {
         setLoading(false);
       }
     }
+
     fetchSources();
   }, []);
 
-  if (loading) return <div className="p-8">Loading sources...</div>;
-
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-6">News Sources</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {sources.map(source => (
-          <div key={source._id} className="bg-white p-6 rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-2">{source.name}</h2>
-            <a href={source.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline mb-4 block">
-              {source.url}
-            </a>
-            {source.category && (
-              <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded text-sm">
-                {source.category}
-              </span>
-            )}
-          </div>
-        ))}
-        {sources.length === 0 && (
-          <p className="text-gray-500 col-span-full">No sources found.</p>
-        )}
-      </div>
+    <div className="page-shell">
+      <section className="page-header">
+        <p className="eyebrow">Source registry</p>
+        <h1>News Sources</h1>
+        <p>Review the feeds powering the aggregator and their current reliability signals.</p>
+      </section>
+
+      {loading ? (
+        <div className="source-grid">
+          {[1, 2, 3].map((item) => (
+            <div key={item} className="source-card skeleton-card" />
+          ))}
+        </div>
+      ) : sources.length > 0 ? (
+        <div className="source-grid">
+          {sources.map((source) => (
+            <article key={source._id} className="source-card">
+              <div className="source-card-header">
+                <h2>{source.name}</h2>
+                <span className={source.isActive ? 'status-badge active' : 'status-badge inactive'}>
+                  {source.isActive ? 'Active' : 'Inactive'}
+                </span>
+              </div>
+              <a href={source.url} target="_blank" rel="noopener noreferrer">
+                {source.url}
+              </a>
+              <div className="reliability-meter" aria-label={`Reliability score ${source.reliabilityScore || 0}`}>
+                <span style={{ width: `${source.reliabilityScore || 0}%` }} />
+              </div>
+              <div className="source-meta">
+                <span>Reliability {source.reliabilityScore || 0}%</span>
+                {source.rssFeedUrl && <span>RSS configured</span>}
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div className="empty-state">
+          <h3>No sources found</h3>
+          <p>Add sources in the backend seed data to populate this page.</p>
+        </div>
+      )}
     </div>
   );
 }

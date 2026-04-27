@@ -1,6 +1,9 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export default function Topics() {
   const [topics, setTopics] = useState([]);
@@ -9,34 +12,46 @@ export default function Topics() {
   useEffect(() => {
     async function fetchTopics() {
       try {
-        const response = await axios.get('http://localhost:5000/api/topics');
-        // Filter out null/empty topics
-        const validTopics = response.data.filter(t => t);
-        setTopics(validTopics);
+        const response = await axios.get(`${API_BASE_URL}/api/topics`);
+        setTopics(response.data.filter(Boolean));
       } catch (error) {
         console.error('Error fetching topics:', error);
       } finally {
         setLoading(false);
       }
     }
+
     fetchTopics();
   }, []);
 
-  if (loading) return <div className="p-8">Loading topics...</div>;
-
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-6">Explore Topics</h1>
-      <div className="flex flex-wrap gap-4">
-        {topics.map((topic, index) => (
-          <div key={index} className="bg-blue-100 text-blue-800 px-6 py-3 rounded-full text-lg cursor-pointer hover:bg-blue-200 transition-colors">
-            {topic}
-          </div>
-        ))}
-        {topics.length === 0 && (
-          <p className="text-gray-500">No topics found.</p>
-        )}
-      </div>
+    <div className="page-shell">
+      <section className="page-header">
+        <p className="eyebrow">Coverage map</p>
+        <h1>Explore Topics</h1>
+        <p>Browse every category currently detected in the article archive.</p>
+      </section>
+
+      {loading ? (
+        <div className="topic-cloud">
+          {[1, 2, 3, 4, 5, 6].map((item) => (
+            <span key={item} className="topic-pill skeleton-pill" />
+          ))}
+        </div>
+      ) : topics.length > 0 ? (
+        <div className="topic-cloud">
+          {topics.map((topic) => (
+            <span key={topic} className="topic-pill">
+              {topic}
+            </span>
+          ))}
+        </div>
+      ) : (
+        <div className="empty-state">
+          <h3>No topics found</h3>
+          <p>Topics will appear after articles are ingested and categorized.</p>
+        </div>
+      )}
     </div>
   );
 }
