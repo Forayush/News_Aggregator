@@ -1,0 +1,145 @@
+:root {
+  --primary-color: #2563eb;
+  --bg-color: #f8fafc;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --card-bg: #ffffff;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+}
+
+.navbar {
+  background-color: #1e293b;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar h1 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.nav-links a {
+  color: #cbd5e1;
+  text-decoration: none;
+  margin-left: 1.5rem;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: white;
+}
+
+.container {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.main-content {
+  flex: 3;
+}
+
+.sidebar {
+  flex: 1;
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  height: fit-content;
+}
+
+.articles-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.article-card {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  transition: transform 0.2s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-2px);
+}
+
+.article-card h3 {
+  margin-top: 0;
+  color: var(--text-main);
+}
+
+.article-card p {
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.article-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.sentiment {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.sentiment.positive { background: #dcfce7; color: #166534; }
+.sentiment.negative { background: #fee2e2; color: #991b1b; }
+.sentiment.neutral { background: #f1f5f9; color: #475569; }
+
+.trending-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.trending-list li {
+  padding: 1rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.trending-list li:last-child {
+  border-bottom: none;
+}
+
+.topic-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.topic-header strong {
+  color: var(--primary-color);
+}
+
+.topic-header .count {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.topic-sentiment {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
