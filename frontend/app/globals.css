@@ -1,20 +1,20 @@
 :root {
-  --bg: #f5f7f4;
-  --surface: #ffffff;
-  --surface-soft: #eef4f0;
-  --ink: #13201b;
-  --muted: #65736d;
-  --line: #dce5df;
-  --primary: #146c5a;
-  --primary-dark: #0d4d40;
-  --accent: #c26a2e;
-  --positive-bg: #e1f7ea;
-  --positive-text: #126236;
-  --negative-bg: #ffe5e1;
-  --negative-text: #a22a1b;
-  --neutral-bg: #edf1f5;
-  --neutral-text: #4d5b66;
-  --shadow: 0 18px 45px rgb(27 44 37 / 0.09);
+  --bg: #1e1f22;
+  --surface: #313338;
+  --surface-soft: #2b2d31;
+  --ink: #dbdee1;
+  --muted: #949ba4;
+  --line: #3f4147;
+  --primary: #5865f2;
+  --primary-dark: #4752c4;
+  --accent: #eb459e;
+  --positive-bg: #23a55a;
+  --positive-text: #ffffff;
+  --negative-bg: #da373c;
+  --negative-text: #ffffff;
+  --neutral-bg: #2b2d31;
+  --neutral-text: #dbdee1;
+  --shadow: 0 8px 16px rgba(0, 0, 0, 0.24);
 }
 
 * {
@@ -28,12 +28,10 @@ html {
 body {
   min-height: 100vh;
   margin: 0;
-  background:
-    linear-gradient(135deg, rgb(20 108 90 / 0.08), transparent 34rem),
-    linear-gradient(315deg, rgb(194 106 46 / 0.10), transparent 30rem),
-    var(--bg);
   color: var(--ink);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
@@ -49,8 +47,8 @@ a {
   justify-content: space-between;
   gap: 1rem;
   padding: 0.9rem clamp(1rem, 4vw, 3rem);
-  background: rgb(245 247 244 / 0.86);
-  border-bottom: 1px solid rgb(220 229 223 / 0.82);
+  background: #1e1f22;
+  border-bottom: 1px solid #111214;
   backdrop-filter: blur(18px);
 }
 
@@ -78,29 +76,32 @@ a {
 
 .nav-links {
   display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.25rem;
-  background: rgb(255 255 255 / 0.7);
-  border: 1px solid var(--line);
+  gap: 0.25rem;
+  padding: 0.35rem;
+  background: #2b2d31;
   border-radius: 999px;
+  border: 1px solid #1e1f22;
 }
 
 .nav-links a {
-  min-height: 2.25rem;
-  padding: 0.55rem 0.9rem;
-  color: var(--muted);
-  border-radius: 999px;
-  font-size: 0.92rem;
-  font-weight: 700;
+  padding: 0.45rem 1rem;
+  color: #dbdee1;
+  font-size: 0.88rem;
+  font-weight: 600;
   text-decoration: none;
+  border-radius: 999px;
+  transition: all 0.15s ease-out;
 }
 
-.nav-links a:hover,
-.nav-links a:focus-visible {
-  color: var(--primary-dark);
-  background: var(--surface-soft);
-  outline: none;
+.nav-links a:hover {
+  background: #313338;
+  color: #f2f3f5;
+}
+
+.nav-links a.active {
+  background: #111214;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .page-shell {
@@ -113,7 +114,7 @@ a {
 .page-header {
   margin-bottom: 1.5rem;
   padding: clamp(1.4rem, 3vw, 2rem);
-  background: linear-gradient(135deg, #123d35, #1e6d5b 62%, #b75f2d);
+  background: #313338;
   color: white;
   border-radius: 8px;
   box-shadow: var(--shadow);
@@ -137,7 +138,7 @@ a {
 
 .dashboard-hero .eyebrow,
 .page-header .eyebrow {
-  color: #ffd7bc;
+  color: #b5bac1;
 }
 
 h1,
@@ -164,7 +165,7 @@ p {
 .page-header p:last-child {
   max-width: 620px;
   margin-bottom: 0;
-  color: rgb(255 255 255 / 0.78);
+  color: #dbdee1;
   font-size: 1.02rem;
   line-height: 1.7;
 }
@@ -178,8 +179,8 @@ p {
 .hero-metrics div {
   min-height: 6rem;
   padding: 1rem;
-  background: rgb(255 255 255 / 0.12);
-  border: 1px solid rgb(255 255 255 / 0.22);
+  background: #2b2d31;
+  border: 1px solid #1e1f22;
   border-radius: 8px;
 }
 
@@ -192,7 +193,7 @@ p {
 .hero-metrics span {
   display: block;
   margin-top: 0.45rem;
-  color: rgb(255 255 255 / 0.72);
+  color: #949ba4;
   font-size: 0.82rem;
   font-weight: 700;
 }
@@ -208,7 +209,7 @@ p {
 .sidebar,
 .source-card,
 .empty-state {
-  background: rgb(255 255 255 / 0.82);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 8px;
   box-shadow: var(--shadow);
@@ -256,7 +257,7 @@ p {
 
 .search-field input:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgb(20 108 90 / 0.14);
+  box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.24);
   outline: none;
 }
 
@@ -277,8 +278,8 @@ p {
 }
 
 .article-card:hover {
-  border-color: rgb(20 108 90 / 0.35);
-  box-shadow: 0 16px 35px rgb(27 44 37 / 0.12);
+  border-color: var(--primary);
+  box-shadow: var(--shadow);
   transform: translateY(-2px);
 }
 
@@ -296,6 +297,7 @@ p {
 
 .article-card h3 {
   margin-bottom: 0;
+  color: #f2f3f5;
   font-size: clamp(1.1rem, 2vw, 1.35rem);
   line-height: 1.25;
 }
@@ -355,7 +357,7 @@ p {
 
 .article-meta a,
 .source-card a {
-  color: var(--primary-dark);
+  color: var(--ink);
   font-weight: 800;
   text-decoration: none;
 }
@@ -417,8 +419,9 @@ p {
 .topic-pill {
   min-height: 2.75rem;
   padding: 0.55rem 1rem;
-  background: rgb(255 255 255 / 0.82);
-  box-shadow: 0 10px 28px rgb(27 44 37 / 0.08);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow);
 }
 
 .source-grid {
@@ -469,7 +472,7 @@ p {
 .reliability-meter span {
   display: block;
   height: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--primary));
+  background: var(--primary);
   border-radius: inherit;
 }
 
