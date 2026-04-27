@@ -132,12 +132,15 @@ async function ingestFeeds() {
     }
 
     console.log(`\n✅ Ingestion Complete! Added ${articlesAdded} new articles.`);
-    process.exit(0);
-
-  } catch (error) {
-    console.error('Fatal Error during ingestion:', error);
-    process.exit(1);
+  } catch (err) {
+    console.error('Error during ingestion:', err);
   }
 }
 
-ingestFeeds();
+// Export the ingestFeeds function heavily so it can be used externally by our cron job
+module.exports = { ingestFeeds };
+
+// Only run the script directly if it's called using node ingest.js
+if (require.main === module) {
+  ingestFeeds().then(() => mongoose.disconnect());
+}
